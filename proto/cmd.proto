@@ -1,0 +1,4 @@
+// Defines the requirements for creating a new RPC command definition
+
+syntax = "proto3";
+
