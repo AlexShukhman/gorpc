@@ -65,4 +65,31 @@ _Because this is the first time I'm doing something like this, I'm going to keep
 
 ### Version 08.29.21
 
-* // TODO
+* Theory
+  * Focusing on the following concepts:
+    * Domain-Driven Design (DDD)
+    * Command-Query Separation (CQS)
+    * Scalable Microservice Architecture
+* Management Server
+  * GoLang HTTP server built with basic RESTful design
+  * HTTP controller
+    * Responsible for accepting/rejecting requests
+    * Breaks down request into Service Bus (SB) components
+    * Should pass SB components to queue
+      * Example queue entities (note, these might be overboard)
+        * *Hitting non-existant endpoint*
+          * Enqueue "render 404" SB component
+        * *Hitting authorized endpoint*
+          * Enqueue "authorization" SB component
+          * Enqueue "handle endpoint with authorization" SB component
+        * *Handling endpoint component*
+          * Enqueue "validate requirements for endpoint" SB component
+          * Enqueue "determine subcomponents* SB component
+  * Queue Management Layer
+    * Handles individual domain-specific queues asynchonously
+      * Each individual entity in the queue knows its parent thread
+      * Each individual entity in the queue knows its domain
+      * Each entity in the queue should be capable of being handled asynchronously from all other elements of the queue
+  * Service Bus
+    * Orchestration layer, this will call the other layers and eventually the most basic components
+    * TODO
