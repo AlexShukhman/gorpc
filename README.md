@@ -23,7 +23,11 @@ Since this is just a personal project, I'm not all too worried about cybersecuri
 1. This will be written entirely on the `main` branch of the git repo (we're phasing out `master` because who needs it...)
 2. At least one commit a week, regardless of how small it is.
 3. This will NOT work over GRPC (keeping it home-grown HTTP native RPC stuff)
-4. No outside contributers (I can look up docs and even tutorials, but no copying and pasting code and nobody but I can contribute until it's a semi-completed POC)
+4. No outside contributors (I can look up docs and even tutorials, but no copying and pasting code and nobody but I can contribute until it's a semi-completed POC)
+
+## References
+
+* [Protobuf API Architecture](https://medium.com/swlh/supercharge-your-rest-apis-with-protobuf-b38d3d7a28d3)
 
 ## Architecture
 
@@ -77,7 +81,7 @@ _Because this is the first time I'm doing something like this, I'm going to keep
     * Breaks down request into Service Bus (SB) components
     * Should pass SB components to queue
       * Example queue entities (note, these might be overboard)
-        * *Hitting non-existant endpoint*
+        * *Hitting non-existent endpoint*
           * Enqueue "render 404" SB component
         * *Hitting authorized endpoint*
           * Enqueue "authorization" SB component
@@ -86,10 +90,24 @@ _Because this is the first time I'm doing something like this, I'm going to keep
           * Enqueue "validate requirements for endpoint" SB component
           * Enqueue "determine subcomponents* SB component
   * Queue Management Layer
-    * Handles individual domain-specific queues asynchonously
+    * Handles individual domain-specific queues asynchronously
       * Each individual entity in the queue knows its parent thread
       * Each individual entity in the queue knows its domain
       * Each entity in the queue should be capable of being handled asynchronously from all other elements of the queue
   * Service Bus
     * Orchestration layer, this will call the other layers and eventually the most basic components
-    * TODO
+    * Can be replicated, this is the code that runs on the subscribers
+    * "Swimlanes" per area of concern
+      * Within each "swimlane" the queue must be handled in order (e.g. the math must come before the response)
+      * Each swimlane should return a callback or enqueue a step, but each step in a swimlane can be a little more loosely defined. (Consider this more of a recommendation)
+* RPC Demo Service Bus
+  * Should consist of two portions:
+    * CLI client
+      * Instantiate connection (for our purposes, just set the IP/URI)
+      * Get available procedures
+      * Run procedure with demo data
+      * Run procedure with custom data
+    * HTTP server (protobuf - based REST API)
+      * Real simple, basically just ingest, validate authorization (in the future), and either grab data or run command
+* Cloud architecture management middleware
+  * TODO
