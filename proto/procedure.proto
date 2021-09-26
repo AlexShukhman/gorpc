@@ -1,0 +1,34 @@
+// Defines the requirements for creating a new RPC command definition
+// WARNING: I'm going heads-first into the deep end here so those index values are gonna be changing a LOT
+
+syntax = "proto3";
+
+message procedure {
+  // Required descriptive name of the procedure
+  string name = 1;
+
+  // Optional description of the procedure
+  optional string description = 2;
+
+  // Definition of what an input should be
+  repeated InputDef inputs = 3;
+
+  // Definition of what the output will look like
+  repeated OutputDef outputs = 4;
+}
+
+message InputDef {
+  // The key of the input
+  string key = 1;
+
+  // The type of the input (to be used to make the protobuf for the procedure)
+  string type = 2;
+}
+
+message OutputDef {
+  // The key of the outpu
+  string key = 1;
+
+  // The type of the output (to be used to make the protobug for the procedure)
+  string type = 2;
+}
