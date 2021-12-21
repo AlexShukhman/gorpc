@@ -1,3 +1,5 @@
+_currently not attacking this one, c'est la vie_
+
 # Alex Shukhman's GORPC project
 
 _Some messing around with making a dynamic RPC server. Probably not a good idea._
